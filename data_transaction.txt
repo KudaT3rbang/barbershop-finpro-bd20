@@ -1,0 +1,7 @@
+transaction_date,customer_name,service_type,service_name,service_amount,service_price,service_total_price
+2023/12/9,Asep,other,tonic,1,10000,10000
+2023/12/9,Subakri,other,flash,3,30000,90000
+2023/11/9,Obju,foiling,full,1,75000,75000
+2023/12/9,Asep,other,tonic,40,10000,400000
+2023/12/10,Asep,other,hair wash,4,15000,60000
+2023/12/12,Asep,other,flash,4,30000,120000

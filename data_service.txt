@@ -1,0 +1,16 @@
+service_type,service_name,service_price
+haircut,regular,35000
+haircut,special haircut,45000
+haircut,shave,20000
+styling,short,30000
+styling,medium,35000
+styling,long,40000
+tints,short blow,35000
+tints,medium blow,40000
+foiling,full,75000
+foiling,thick hair,85000
+children,haircut,25000
+other,hair wash,15000
+other,tonic,10000
+other,flash,30000
+other,flask,10000
