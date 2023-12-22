@@ -5,3 +5,9 @@ transaction_date,customer_name,service_type,service_name,service_amount,service_
 2023/12/9,Asep,other,tonic,40,10000,400000
 2023/12/10,Asep,other,hair wash,4,15000,60000
 2023/12/12,Asep,other,flash,4,30000,120000
+2023/12/18,Asep3,other,tonic,4,10000,40000
+2023/12/19,Asep subakri,other,tonic,4,10000,40000
+2023/12/20,Odin petot,haircut,shave,4,20000,80000
+
+2023/12/21,Gatot,children,haircut,1,25000,25000
+2023/12/21,Gatot,haircut,regular,1,35000,35000

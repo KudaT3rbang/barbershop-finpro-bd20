@@ -14,3 +14,4 @@ other,hair wash,15000
 other,tonic,10000
 other,flash,30000
 other,flask,10000
+other,smoothing,100000

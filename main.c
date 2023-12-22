@@ -237,7 +237,7 @@ void sort_data() {
          "Date\nYour Choice: ");
   scanf("%d", &choice);
   while (choice == 0 || choice > 2) {
-    printf("Invalid input!\nYour choice: ");
+    printf("\nInvalid input!\nYour choice: ");
     scanf("%d", &choice);
   }
   switch (choice) {
@@ -263,9 +263,9 @@ void search_data_based_date() {
   struct data data_temp[500];
   utils_read_data_transaction("data_transaction.txt", data_transaction_parsed,
                               &transaction_count);
-  printf("Insert Year: ");
+  printf("Insert Year : ");
   scanf("%d", &search_year);
-  printf("Insert Month: ");
+  printf("Insert Month : ");
   scanf("%d", &search_month);
   for (int i = 0; i < transaction_count; i++) {
     int year, month;
@@ -284,17 +284,45 @@ void search_data_based_date() {
   }
 }
 
+void search_data_based_name() {
+  int transaction_count = 0, data_length = 0;
+  char nameSearch[50];
+  struct data data_transaction_parsed[500];
+  struct data data_temp[500];
+  printf("\n\n===========================================");
+  printf("\nINPUT CUSTOMER NAME : ");
+  scanf(" %49[^\n]%*c", nameSearch);
+  utils_read_data_transaction("data_transaction.txt", data_transaction_parsed,
+                              &transaction_count);
+  for (int i = 0; i < transaction_count; i++) {
+    if (strcmp(data_transaction_parsed[i].customer_name, nameSearch) == 0) {
+      data_temp[data_length] = data_transaction_parsed[i];
+      data_length++;
+    }
+  }
+  if (data_length == 0) {
+    printf("No Data Found!");
+  } else {
+    utils_print_data(data_temp, data_length);
+    utils_count_most_frequent(data_transaction_parsed, transaction_count);
+  }
+}
+
 void search_data() {
   int choice;
-  printf("Search Data Based On: \n1. Based On Date\nYour Choice: ");
+  printf("Search Data Based On: \n1. Based On Date\n2. Based On Name\nYour "
+         "Choice: ");
   scanf("%d", &choice);
-  while (choice == 0 || choice > 1) {
+  while (choice == 0 || choice > 2) {
     printf("Invalid input!\nYour choice: ");
     scanf("%d", &choice);
   }
   switch (choice) {
   case 1:
     search_data_based_date();
+    break;
+  case 2:
+    search_data_based_name();
     break;
   default:
     break;
@@ -334,9 +362,9 @@ void read_data_service(const char *filename,
 // Fungsi untuk print data_service yang sudah di parsed
 void print_service_data(struct data_serv data_service_parsed[],
                         int service_count) {
-  printf("Service In Our Barbershop: \n");
-  printf("| %-20s | %-20s | %-10s |\n", "Service Type", "Service Name",
-         "Price");
+  printf("\n\n            ---- BARBERSHOP SERVICE MENU ----\n\n");
+  printf("| %-20s | %-20s | %-10s |\n", "    SERVICE TYPE", "    SERVICE NAME",
+         "  PRICE");
   for (int i = 0; i < service_count; i++) {
     printf("| %-20s | %-20s | %-10d |\n", data_service_parsed[i].service_type,
            data_service_parsed[i].service_name,
@@ -359,15 +387,16 @@ void cashier_app() {
   FILE *data = open_file("data_transaction.txt", "a");
   read_data_service("data_service.txt", data_service_parsed, &service_count);
   print_service_data(data_service_parsed, service_count);
-  printf("Input customer name: ");
+  printf("\n------------------------------------------------------------");
+  printf("\nCustomer name        : ");
   scanf(" %[^\n]%*c", data_temp[0].customer_name);
   do {
     strcpy(data_temp[max_entry].customer_name, data_temp[0].customer_name);
-    printf("Input Service Type: ");
+    printf("\nInput Service Type   : ");
     scanf(" %[^\n]%*c", data_temp[max_entry].service_type);
-    printf("Input Service Name: ");
+    printf("Input Service Name   : ");
     scanf(" %[^\n]%*c", data_temp[max_entry].service_name);
-    printf("Input Service amount: ");
+    printf("Input Service amount : ");
     scanf("%d", &data_temp[max_entry].service_amount);
 
     int found = 0;
@@ -388,18 +417,19 @@ void cashier_app() {
     }
 
     if (!found) {
-      printf("Invalid service type or name.\n");
-      printf("Do you want to try again? (0/1)");
+      printf("\nInvalid service type or name.\n");
+      printf("Do you want to try again? (0 for NO / 1 for YES) : ");
       scanf("%d%*c", &confirm_upload);
       continue;
     }
-    printf("Do you want to input more data? (0/1)");
+    printf("\nDo you want to input more data? (0 for NO / 1 for YES) :");
     scanf("%d", &confirm_upload);
     max_entry++;
   } while (confirm_upload != 0 && max_entry < 10);
 
-  printf("| Barbershop Bill\n");
-  printf("| Customer Name: %s\n", data_temp[0].customer_name);
+  printf("\n ------------------------------------------ BARBERSHOP BILL "
+         "------------------------------------------\n");
+  printf("| Customer Name : %s\n", data_temp[0].customer_name);
   printf("| Service Type    | Service Name    | Service amount           | "
          "Service Price    | Service Total Price\n");
 
@@ -417,16 +447,18 @@ void cashier_app() {
   printf("| %-15s | %-15s | %-24d | %-16s | %-15d\n", "Total", "",
          sum_service_amount, "", sum_service_total_price);
 
-  printf("Are you sure want to upload the data? 0/1: ");
+  printf("\nAre you sure want to upload the data? (0 for NO / 1 for YES) : ");
   scanf("%d", &confirm_upload);
 
   while (confirm_upload < 0 || confirm_upload > 1) {
-    printf("Invalid input!\nAre you sure want to upload the data? 0/1: ");
+    printf("\nInvalid input!\nAre you sure want to upload the data? (0 for NO "
+           "/ 1 for YES) : ");
     scanf("%d", &confirm_upload);
   }
 
   if (confirm_upload == 0) {
-    printf("Upload data cancelled");
+    printf("\n ---------------------------------------- UPLOAD DATA CANCELLED "
+           "----------------------------------------\n");
   } else {
     for (int a = 0; a < max_entry; a++) {
       fprintf(data, "\n%d/%d/%d,%s,%s,%s,%d,%d,%d", date.tm_year + 1900,
@@ -438,7 +470,8 @@ void cashier_app() {
       // yyyy/mm/dd,customer_name,service_type,service_name,service_amount,service_price,service_total_price
     }
     fclose(data);
-    printf("Data uploaded!");
+    printf("\n------------------------------------- DATA UPLOADED SUCCESSFULLY "
+           "--------------------------------------\n");
   }
 }
 
@@ -456,13 +489,13 @@ void add_service_type() {
   char service_name[50];
   int service_price;
 
-  printf("Input Service Type: ");
+  printf("\nInput Service Type   : ");
   scanf(" %[^\n]%*c", service_type);
 
-  printf("Input Service Name: ");
+  printf("Input Service Name   : ");
   scanf(" %[^\n]%*c", service_name);
 
-  printf("Input Service Price: ");
+  printf("Input Service Price  : ");
   scanf("%d", &service_price);
 
   fprintf(data_service, "\n%s,%s,%d", service_type, service_name,
@@ -474,33 +507,60 @@ void add_service_type() {
 
 int main(void) {
   int choice;
-  printf("Welcome to Barbershop Management System\nPlease select the option "
-         "you want to use\n");
-  printf("1. Print Raw Data\n2. Search Data\n3. Sort Data\n4. See Our "
-         "Service\n5. Add Service\n6. Cashier App\n7.Add New Service "
-         "Type\nYour choice: ");
-  scanf("%d", &choice);
-  while (choice == 0 || choice > 5) {
-    printf("Invalid input!\nYour choice: ");
-    scanf("%d", &choice);
-  }
-  switch (choice) {
-  case 1:
-    print_raw_data();
-    break;
-  case 2:
-    search_data();
-    break;
-  case 3:
-    sort_data();
-    break;
-  case 4:
+  char user;
+  char password[20];
+  printf("===========================================\n");
+  printf("------- Barbershop Managment System -------\n");
+  printf("===========================================\n\n");
+
+  printf("Choose your role\n");
+  printf("<< A. CUSTOMER >>\n");
+  printf("<< B. ADMIN >>\n");
+
+  printf("\nROLE : ");
+  scanf("%c", &user);
+  printf("\n===========================================");
+
+  if (tolower(user) == 'a') {
     cashier_app();
-    break;
-  case 5:
-    add_service_type();
-    break;
-  default:
-    break;
+  } else if (tolower(user) == 'b') {
+    printf("\nPASSWORD :  ");
+    scanf("%s", password);
+    if (strcmp("doaibuu", password) == 0) {
+      printf("\n-------------------------------------------\n");
+      printf("---------------- ADMIN MENU ---------------\n");
+      printf("-------------------------------------------");
+      printf("\n1. Print Raw Data\n2. Search Data\n3. Sort "
+             "Data\n4. Add New "
+             "Service Type\n");
+      printf("\nINPUT MENU :");
+      scanf("%d", &choice);
+      while (choice == 0 || choice > 4) {
+        printf("Invalid input!\nYour choice: ");
+        scanf("%d", &choice);
+      }
+      switch (choice) {
+      case 1:
+        print_raw_data();
+        break;
+      case 2:
+        search_data();
+        break;
+      case 3:
+        sort_data();
+        break;
+      case 4:
+        add_service_type();
+        break;
+      default:
+        break;
+      }
+    } else {
+      printf("\n-----------------  WRONG PASSWORD ----------------- \n");
+      printf("Please try again : ");
+      scanf("%s", password);
+    }
+  } else {
+    printf("----------------- INVALID ----------------- ");
   }
 }
